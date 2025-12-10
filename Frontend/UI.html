@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Serverless Photo-Processing Service</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="UI.css" />
+</head>
+<body>
+  <header>
+    <h1>Serverless Photo-Processing Service</h1>
+    <span>Cloud Run · Cloud Storage · Firestore · Vision API</span>
+  </header>
+
+  <main class="page">
+    <section class="two-column">
+      <!-- LEFT: upload / controls -->
+      <div class="card">
+        <h2>1. Upload an image</h2>
+        <p class="subtitle">
+          Drag &amp; drop or choose an image. We’ll send it to the cloud for
+          event-driven processing.
+        </p>
+
+        <div id="dropzone" class="dropzone">
+          <p><strong>Drop image here</strong> or</p>
+          <button type="button" id="chooseBtn" class="btn">
+            Choose file
+          </button>
+          <br />
+          <small>JPG, PNG, WebP · Max ~10 MB </small>
+        </div>
+
+        <input type="file" id="fileInput" accept="image/*" hidden />
+
+        <div id="preview" class="preview" style="display: none">
+          <img id="previewImg" alt="Preview" />
+          <div>
+            <div id="previewName" style="font-size: 0.9rem; font-weight: 500"></div>
+            <div id="previewSize" style="font-size: 0.8rem; color: #6b7280"></div>
+          </div>
+        </div>
+
+        <button id="analyzeBtn" class="btn" style="margin-top: 16px" disabled>
+          Analyze in Cloud
+        </button>
+
+        <div id="status" class="status"></div>
+      </div>
+
+      <!-- RIGHT: results -->
+      <div class="card">
+        <h2>2. Analysis results</h2>
+        <p class="subtitle">
+          Once the Cloud Run processor finishes, we load the results stored in
+          Firestore / Cloud Storage.
+        </p>
+
+        <div class="tabs">
+          <div class="tab active" data-tab="summary">Summary</div>
+          <div class="tab" data-tab="metadata">Metadata</div>
+          <div class="tab" data-tab="vision">Vision labels</div>
+          <div class="tab" data-tab="raw">Raw JSON</div>
+        </div>
+
+        <!-- Summary tab -->
+        <div id="tab-summary" class="tab-panel active">
+          <strong>Labels</strong>
+          <div id="summaryLabels" class="labels-list"></div>
+
+          <div id="summaryColors" class="color-swatches"></div>
+        </div>
+
+        <!-- Metadata tab -->
+        <div id="tab-metadata" class="tab-panel">
+          <table class="table" id="metadataTable">
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Vision tab -->
+        <div id="tab-vision" class="tab-panel">
+          <table class="table" id="visionTable">
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th>Confidence</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Raw JSON tab -->
+        <div id="tab-raw" class="tab-panel">
+          <div id="rawJson" class="json-box">
+            Waiting for analysis…
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- History section
+    <section class="card">
+      <h2>3. Recent images</h2>
+      <p class="subtitle">
+        These would be loaded from Firestore (thumbnail, name, timestamp). Click
+        to reload previous results.
+      </p>
+      <div id="history" class="history-list"></div>
+    </section> -->
+  </main>
+
+    <!-- Your UI code -->
+    <script src="UI.js"></script>
+</body>
+</html>
