@@ -35,7 +35,7 @@ function normalizeResult(raw) {
   };
 }
 
-/// Poll the Cloud Run GET endpoint until we get the result for THIS file
+// Poll the Cloud Run GET endpoint until we get the result for THIS file
 async function pollForResult(expectedId, maxAttempts = 20, delayMs = 2000) {
   if (!expectedId) {
     console.error("pollForResult called without expectedId");
@@ -57,7 +57,7 @@ async function pollForResult(expectedId, maxAttempts = 20, delayMs = 2000) {
         const raw = await res.json();
         console.log("Got analysis result:", raw);
 
-        // 🔑 If it's not the doc for THIS file, keep waiting
+        // If it's not the doc for THIS file, keep waiting
         if (!raw.id) {
           console.log(`Attempt ${attempt + 1}: doc has no id, keep polling`);
         } else if (raw.id !== expectedId) {
@@ -155,7 +155,7 @@ analyzeBtn.addEventListener("click", async () => {
   analyzeBtn.disabled = true;
 
   try {
-    // We send the raw file as the body (the backend reads req.rawBody)
+    // We send the raw file as the body, the backend reads req.rawBody
     const res = await fetch(UPLOAD_API_URL, {
       method: "POST",
       headers: {
